@@ -26,6 +26,7 @@ INSTRUCTIONS
 ADDITIONAL NOTES
 - There is a file called 'BluetoothAT.ino' which I found useful in programming the bluetooth module if you need to.
 - This only works with traditional 'toggle' light switches.
+- Due to the nature of the bluetooth module I used, a voltage divider was needed (cutting 5V to 3.3V). This uses additional energy on standby than just the Arduino Uno alone.
 
 KNOWN ISSUES
 - Sometimes the servo does not seem to be strong enough. A fix I came across is just re-uploading the BluetoothLightSwitch.ino file.
