@@ -10,6 +10,7 @@ REQUIRED PARTS
 6. Access to a a 3D printer
 7. Access to a computer
 8. A device with bluetooth (what you will use to turn on and off the lights, ex. a smartphone)
+9. A 500 ohm and 1000 ohm resistor
 
 INSTRUCTIONS
 1. Upload 'BluetoothLightSwitch.ino' onto the Arduino Uno
@@ -22,6 +23,7 @@ INSTRUCTIONS
 8. Screw on the Arduino onto the Arduino holder
 9. Wire the pins according to the provided diagram
 10. Attach a power supply to the Arduino
+11. Connect to the Bluetooth Module on your bluetooth device and send a "0" or a "1" to turn on and off your lights
 
 ADDITIONAL NOTES
 - There is a file called 'BluetoothAT.ino' which I found useful in programming the bluetooth module if you need to.
