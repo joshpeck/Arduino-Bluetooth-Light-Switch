@@ -30,7 +30,7 @@ BLUETOOTH MODULE PROGRAMMING
 2. Upload an empty file to the arduino
 3. Switch the RX and TX pins so that the module is wired according to ATModeWiring.png
 4. Reconnect the bluetooth module
-5. Power the arduino via USB on a computer with Arduino Sketch installed while h olding down the module button
+5. Power the arduino via USB on a computer with Arduino Sketch installed while holding down the module button
 6. After 2 seconds, you'll notice the blue light on the module blinking every 2 seconds, this means the module is in programming mode
 7. Open the serial monitor in Arduino Sketch and set the bottom right boxes to 'Both NL & CR' and '9600 baud'
 8. Type the command 'AT' twice, and if an 'OK' appears, then you can type your programming commands
