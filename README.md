@@ -21,17 +21,22 @@ INSTRUCTIONS
 6. Place the plastic arm that fits into the servo arm which came with the SG90 servo
 7. Place the combination of printed arm and plastic arm onto the servo so that it encloses the light switch
 8. Screw on the Arduino onto the Arduino holder
-9. Wire the pins according to the provided diagram
+9. Wire the pins according to the provided diagram (WorkingWiring.png)
 10. Attach a power supply to the Arduino
-11. Connect to the Bluetooth Module on your bluetooth device and send a "0" or a "1" to turn on and off your lights
+11. Connect to the Bluetooth Module on your bluetooth device and send the string "on," or "off," to turn on and off your lights
+
+BLUETOOTH MODULE PROGRAMMING
+1. Disconnect the module from the arduino
+2. Upload an empty file to the arduino
+3. Switch the RX and TX pins so that the module is wired according to ATModeWiring.png
+4. Reconnect the bluetooth module
+5. Power the arduino via USB on a computer with Arduino Sketch installed while h olding down the module button
+6. After 2 seconds, you'll notice the blue light on the module blinking every 2 seconds, this means the module is in programming mode
+7. Open the serial monitor in Arduino Sketch and set the bottom right boxes to 'Both NL & CR' and '9600 baud'
+8. Type the command 'AT' twice, and if an 'OK' appears, then you can type your programming commands
 
 ADDITIONAL NOTES
-- There is a file called 'BluetoothAT.ino' which I found useful in programming the bluetooth module if you need to.
-- This only works with traditional 'toggle' light switches.
+- This project only works with traditional 'toggle' light switches.
 - Due to the nature of the bluetooth module I used, a voltage divider was needed (cutting 5V to 3.3V). This uses additional energy on standby than just the Arduino Uno alone.
-
-KNOWN ISSUES
-- Sometimes the servo does not seem to be strong enough. A fix I came across is just re-uploading the BluetoothLightSwitch.ino file.
-- When reuploading a file, make sure to have the RX and TX pins disconnected so that the files are successfully uploaded without error.
 
 [<3 AlexeyY]
