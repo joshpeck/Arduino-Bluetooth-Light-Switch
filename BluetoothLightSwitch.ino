@@ -2,6 +2,9 @@
 
 Servo servo;
 
+#define COMMAND_SIZE 21 // Size of command buffer
+#define PRINT_SIZE 101 // Size of command buffer
+
 //Variables
 int defCenter = 42;
 int defUp = 13;
@@ -11,11 +14,17 @@ int center = defCenter;
 int up = defUp;
 int down = defDown;
 
-String data = "";
+char buf1[COMMAND_SIZE];  // Allow up to 21 character commands
+char buf2[PRINT_SIZE];    // Allow up to 101 character print statements
+int chars;                // Keep track of how many characters we have used before a ','
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600); //BAUD rate
+  
+  chars = 0;
+  memset(buf1, 0, COMMAND_SIZE);
+  memset(buf2, 0, PRINT_SIZE);
 
   pinMode(13, OUTPUT);
 
@@ -31,13 +40,16 @@ void loop() {
   digitalWrite(13, LOW);
 
   if (Serial.available() > 0) {
-    char ch = Serial.read();
-    data += ch;
-    //String printData = "Current command line is: " + data;
-    //Serial.println(printData + ";");
-    if (ch == ',') {
-      if (data == "on,") {
-        Serial.println("");
+    if(chars == 0)
+      Serial.println("");
+    char c = Serial.read();
+    buf1[chars] = c;
+    chars++;
+    //memset(buf2, 0, PRINT_SIZE);
+    //sprintf(buf2, "Current command line is: \"%s\" with latest char \"%c\"", buf1, c);
+    //Serial.println(buf2);
+    if (c == ',') {
+      if (!strncmp(buf1,"on",2)) {
         Serial.println("Turning on");
         servo.attach(13);
         servo.write(up);
@@ -47,8 +59,7 @@ void loop() {
         digitalWrite(13, LOW);
         servo.detach();
       }
-      else if (data == "off,") {
-        Serial.println("");
+      else if (!strncmp(buf1,"off",3)) {
         Serial.println("Turning off");
         servo.attach(13);
         servo.write(down);
@@ -58,44 +69,43 @@ void loop() {
         digitalWrite(13, LOW);
         servo.detach();
       }
-      else if (data == "vars,") {
+      else if (!strncmp(buf1,"vars",4)) {
         printVars();
       }
-      else if (data == "reset,") {
-        Serial.println("");
+      else if (!strncmp(buf1,"reset",5)) {
         Serial.println("Reset variables");
         resetVars();
       }
-      else if (data == "commands,") {
+      else if (!strncmp(buf1,"commands",8)) {
         printCommands();
       }
-      else if (data.length() >= 7 && data.substring(0, 6).equals("center")) {
-        String num = data.substring(7, data.length() - 1);
-        int angle = num.toInt();
+      else if (strlen(buf1) >= 8 && !strncmp(buf1,"center",6)) {
+        int angle = atoi(buf1+7);
         center = angle;
-        Serial.println("");
-        Serial.println("Set center to " + num);
+        memset(buf2, 0, PRINT_SIZE);
+        sprintf(buf2, "Set \"center\" to %d", angle);
+        Serial.println(buf2);
       }
-      else if (data.length() >= 4 && data.substring(0, 2).equals("up")) {
-        String num = data.substring(3, data.length() - 1);
-        int angle = num.toInt();
+      else if (strlen(buf1) >= 4 && !strncmp(buf1,"up",2)) {
+        int angle = atoi(buf1+3);
         up = angle;
-        Serial.println("");
-        Serial.println("Set up to " + num);
+        memset(buf2, 0, PRINT_SIZE);
+        sprintf(buf2, "Set \"up\" to %d", angle);
+        Serial.println(buf2);
       }
-      else if (data.length() >= 6 && data.substring(0, 4).equals("down")) {
-        String num = data.substring(5, data.length() - 1);
-        int angle = num.toInt();
+      else if (strlen(buf1) >= 6 && !strncmp(buf1,"down",4)) {
+        int angle = atoi(buf1+5);
         down = angle;
-        Serial.println("");
-        Serial.println("Set down to " + num);
+        memset(buf2, 0, PRINT_SIZE);
+        sprintf(buf2, "Set \"down\" to %d", angle);
+        Serial.println(buf2);
       }
       else {
         printHelp();
       }
-      data = "";
+      chars = 0;
+      memset(buf1, 0, COMMAND_SIZE);
     }
-    //Serial.println(data); // Print input
   }
   delay(50);
 }
@@ -118,9 +128,9 @@ void printVars() {
   Serial.println("Default center angle: 42");
   Serial.println("Default up angle: 13");
   Serial.println("Default down angle: 84");
-  Serial.println("Current center angle: " + String(center));
-  Serial.println("Current up angle: " + String(up));
-  Serial.println("Current down angle: " + String(down));
+  Serial.println("Current center angle: " + String(center) + "");
+  Serial.println("Current up angle: " + String(up) + "");
+  Serial.println("Current down angle: " + String(down) + "");
 }
 
 void printCommands() {
