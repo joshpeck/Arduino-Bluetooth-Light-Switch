@@ -36,6 +36,7 @@ BLUETOOTH MODULE PROGRAMMING
 8. Type the command 'AT' twice, and if an 'OK' appears, then you can type your programming commands
 
 ADDITIONAL NOTES
+- When uploading a .ino file to the arduino, make sure the servo and bluetooth module are disconnected
 - This project only works with traditional 'toggle' light switches.
 - Due to the nature of the bluetooth module I used, a voltage divider was needed (cutting 5V to 3.3V). This uses additional energy on standby than just the Arduino Uno alone.
 
